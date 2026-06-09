@@ -1,5 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
-
+const API_BASE = "https://scout-by-scaler.onrender.com";
 let conversationHistory = [];
 
 // Drag and drop
