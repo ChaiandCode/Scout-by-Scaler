@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scout by Scaler</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-scout">Scout</span>
+      <span class="brand-by"> by </span>
+      <span class="brand-scaler">Scaler</span>
+    </div>
+    <div class="nav-links">
+      <a href="#upload-section">Analyze</a>
+      <a href="#results-section">Results</a>
+      <a href="#chat-section">Copilot</a>
+    </div>
+    <div class="nav-badge">AI Powered</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">Resume Intelligence Platform</div>
+    <h1 class="hero-title">Land your next opportunity.<br/><span class="highlight">Fix your resume first.</span></h1>
+    <p class="hero-subtitle">Upload your resume, paste the job description, and get an instant ATS score, keyword gap analysis, and personalized Scaler course recommendations.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">10K+</span><span class="stat-label">Resumes Reviewed</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">85%</span><span class="stat-label">Interview Rate Improvement</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">2 Weeks</span><span class="stat-label">Avg. Time to Job Ready</span></div>
+    </div>
+  </section>
+
+  <!-- UPLOAD SECTION -->
+  <section class="upload-section" id="upload-section">
+    <div class="upload-card">
+
+      <!-- Role + Experience Row -->
+      <div class="selectors-row">
+        <div class="selector-group">
+          <label>Target Role</label>
+          <select id="role-select">
+            <option>Software Engineer (SDE)</option>
+            <option>Data Analyst</option>
+            <option>Product Manager</option>
+            <option>DevOps Engineer</option>
+            <option>ML Engineer</option>
+            <option>UI/UX Designer</option>
+            <option>Founder's Office / Strategy</option>
+            <option>Business Analyst</option>
+          </select>
+        </div>
+        <div class="selector-group">
+          <label>Experience Level</label>
+          <select id="experience-select">
+            <option>Fresher / Intern</option>
+            <option>0-1 Years</option>
+            <option>1-3 Years</option>
+            <option>3+ Years</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Upload Box -->
+      <div class="upload-box" id="upload-box">
+        <div class="upload-icon">📄</div>
+        <p class="upload-title">Drag & drop your resume here</p>
+        <p class="upload-sub">PDF only · Max 5MB</p>
+        <input type="file" id="file-input" accept=".pdf" hidden/>
+        <button class="btn-browse" onclick="document.getElementById('file-input').click()">Browse File</button>
+        <p class="file-name" id="file-name"></p>
+      </div>
+
+      <!-- Job Description -->
+      <div class="jd-group">
+        <label>Job Description <span class="optional">(optional but recommended)</span></label>
+        <textarea id="jd-input" placeholder="Paste the job description here for better keyword analysis..."></textarea>
+      </div>
+
+      <!-- Analyze Button -->
+      <button class="btn-analyze" id="analyze-btn" onclick="analyzeResume()">
+        <span id="btn-text">Analyze Resume →</span>
+        <span id="btn-loader" class="hidden">Analyzing...</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- RESULTS SECTION -->
+  <section class="results-section hidden" id="results-section">
+
+    <div class="results-header">
+      <h2>Analysis Results</h2>
+      <button class="btn-reanalyze" onclick="resetApp()">← Analyze Another</button>
+    </div>
+
+    <!-- Top Row: Score + Keywords + Issues -->
+    <div class="results-top-row">
+
+      <!-- ATS Score Card -->
+      <div class="card score-card">
+        <h3>ATS Score</h3>
+        <div class="score-ring-wrapper">
+          <svg viewBox="0 0 120 120" class="score-ring">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#f0f0f0" stroke-width="10"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="#2563eb" stroke-width="10"
+              stroke-dasharray="314" stroke-dashoffset="314"
+              stroke-linecap="round" transform="rotate(-90 60 60)"
+              id="score-circle"/>
+          </svg>
+          <div class="score-number-wrapper">
+            <span class="score-number" id="score-number">0</span>
+            <span class="score-label">/ 100</span>
+          </div>
+        </div>
+        <p class="score-reasoning" id="score-reasoning"></p>
+        <div class="strengths-list" id="strengths-list"></div>
+      </div>
+
+      <!-- Keyword Match Card -->
+      <div class="card keyword-card">
+        <h3>Keyword Match</h3>
+        <div class="keyword-bar-wrapper">
+          <div class="keyword-bar-bg">
+            <div class="keyword-bar-fill" id="keyword-bar"></div>
+          </div>
+          <span class="keyword-pct" id="keyword-pct">0%</span>
+        </div>
+        <div class="keyword-section">
+          <p class="kw-label matched-label">✅ Matched</p>
+          <div class="keyword-pills" id="matched-keywords"></div>
+        </div>
+        <div class="keyword-section">
+          <p class="kw-label missing-label">❌ Missing</p>
+          <div class="keyword-pills" id="missing-keywords"></div>
+        </div>
+      </div>
+
+      <!-- Issues Card -->
+      <div class="card issues-card">
+        <h3>Issues Found</h3>
+        <div class="issues-list" id="issues-list"></div>
+      </div>
+
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="card quick-wins-card">
+      <h3>⚡ Quick Wins — Fix These Today</h3>
+      <div class="quick-wins-list" id="quick-wins-list"></div>
+    </div>
+
+    <!-- Scaler Recommendations -->
+    <div class="scaler-section">
+      <div class="scaler-header">
+        <div>
+          <h2>Scaler Recommendations</h2>
+          <p class="scaler-sub">Courses matched to your specific skill gaps</p>
+        </div>
+        <img src="https://www.scaler.com/favicon.ico" class="scaler-logo" alt="Scaler"/>
+      </div>
+      <div class="scaler-cards" id="scaler-cards"></div>
+    </div>
+
+  </section>
+
+  <!-- CHAT SECTION -->
+  <section class="chat-section" id="chat-section">
+    <div class="chat-header">
+      <div>
+        <h2>Scaler Talent Copilot</h2>
+        <p class="chat-sub">Ask anything about your resume, skills, or career path</p>
+      </div>
+      <div class="chat-status">
+        <span class="status-dot"></span> Online
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-bubble bot-bubble">
+        👋 Hi! I'm the Scaler Talent Copilot. Upload your resume above and I can help you improve it, suggest skills to learn, and guide your career path. What would you like to know?
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Ask anything about your resume or career..." onkeydown="if(event.key==='Enter') sendChat()"/>
+      <button class="btn-send" onclick="sendChat()">Send →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Scout by Scaler · Built with FastAPI + Groq LLaMA · Resume Intelligence Platform</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
