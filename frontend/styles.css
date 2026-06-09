@@ -757,3 +757,96 @@ body {
 
 /* UTILITIES */
 .hidden { display: none !important; }
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero {
+    padding: 40px 20px 40px;
+  }
+
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .stat-divider {
+    width: 40px;
+    height: 1px;
+  }
+
+  .upload-section {
+    padding: 30px 16px;
+  }
+
+  .upload-card {
+    padding: 24px 16px;
+  }
+
+  .selectors-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .upload-box {
+    padding: 24px 16px;
+  }
+
+  .results-section {
+    padding: 24px 16px;
+  }
+
+  .results-top-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .scaler-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .scaler-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .chat-section {
+    padding: 30px 16px 40px;
+  }
+
+  .chat-messages {
+    height: 260px;
+  }
+
+  .chat-input-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-send {
+    width: 100%;
+  }
+
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
